@@ -35,21 +35,19 @@ def load_file(filename):
         return purchases
 
 
-def get_price(p):
-    return p.price
-
-
 def query_data(data):  # : list[Purchase])
     # if data was sorted by price:
-    data.sort(key=get_price)
+    data.sort(key=lambda p: p.price)
 
     # most expensive house?
     high_purchase = data[-1]
-    print(high_purchase.price)
+    print(f'The most expensive house is ${high_purchase.price:,} with '
+          f'{high_purchase.beds} beds and {high_purchase.baths} baths')
 
     # least expensive house?
     low_purchase = data[0]
-    print(low_purchase.price)
+    print(f'The least expensive house is ${low_purchase.price:,} with '
+          f'{low_purchase.beds} beds and {low_purchase.baths} baths')
 
     # average price house?
 
