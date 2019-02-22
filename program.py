@@ -51,20 +51,21 @@ def query_data(data):  # : list[Purchase])
           f'{low_purchase.beds} beds and {low_purchase.baths} baths')
 
     # average price house?
-    prices = []
-    for pur in data:
-        prices.append(pur.price)
+    prices = [
+        p.price for p in data
+    ]
     avg_price = statistics.mean(prices)
     print(f"The average home price is ${int(avg_price):,}")
 
     # average price of 2 bedroom houses?
-    prices = []
-    for pur in data:
-        if pur.beds == 2:
-            prices.append(pur.price)
-
-    avg_price = statistics.mean(prices)
-    print(f"The average price of a 2-bedroomn home is ${int(avg_price):,}")
+    two_bedroom_homes = [
+        p for p in data if p.beds == 2
+    ]
+    avg_price = statistics.mean(p.price for p in two_bedroom_homes)
+    avg_baths = statistics.mean(p.baths for p in two_bedroom_homes)
+    avg_sq = statistics.mean(p.sq__ft for p in two_bedroom_homes)
+    print(f"The average price of a 2-bedroomn home is ${int(avg_price):,}, "
+          f"baths={avg_baths:.2}, sq ft={int(avg_sq)}")
 
 
 if __name__ == '__main__':
