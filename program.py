@@ -11,6 +11,7 @@ def main():
     data = load_file(filename)
     query_data(data)
 
+
 def print_header():
     print('------------------------------------')
     print('    REAL ESTATE DATA MINING APP')
@@ -54,18 +55,31 @@ def query_data(data):  # : list[Purchase])
     prices = [
         p.price for p in data
     ]
+
     avg_price = statistics.mean(prices)
     print(f"The average home price is ${int(avg_price):,}")
 
     # average price of 2 bedroom houses?
-    two_bedroom_homes = [
-        p for p in data if p.beds == 2
-    ]
-    avg_price = statistics.mean(p.price for p in two_bedroom_homes)
-    avg_baths = statistics.mean(p.baths for p in two_bedroom_homes)
-    avg_sq = statistics.mean(p.sq__ft for p in two_bedroom_homes)
-    print(f"The average price of a 2-bedroomn home is ${int(avg_price):,}, "
-          f"baths={avg_baths:.2}, sq ft={int(avg_sq)}")
+    two_bedroom_homes = (
+        p for p in data if announce(p, f'2-bedrroms, found {p.beds}') and p.beds == 2
+    )
+
+    homes = []
+    for h in two_bedroom_homes:
+        if len(homes) > 5:
+            break
+        homes.append(h)
+
+    avg_price = statistics.mean((announce(p.price, 'price') for p in homes))
+    avg_baths = statistics.mean((p.baths for p in homes))
+    avg_sq = statistics.mean((p.sq__ft for p in homes))
+    print(f"The average price of a 2-bedroomn home is ${int(avg_price)}, "
+          f"baths={avg_baths}, sq ft={int(avg_sq)}")
+
+
+def announce(item, msg):
+    print(f"Pulling item {item} for {msg}")
+    return item
 
 
 if __name__ == '__main__':
