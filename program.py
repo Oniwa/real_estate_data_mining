@@ -1,5 +1,5 @@
 import csv
-import os
+from pathlib import Path
 import statistics
 
 from data_types import Purchase
@@ -20,9 +20,9 @@ def print_header():
 
 
 def get_data_file():
-    base_folder = os.path.dirname(__file__)
-    return os.path.join(base_folder, 'data',
-                        'SacramentoRealEstateTransactions2008.csv')
+    base_folder = Path(__file__)
+    return base_folder.parent.joinpath('data').joinpath(
+        'SacramentoRealEstateTransactions2008.csv')
 
 
 def load_file(filename):
